@@ -11,7 +11,7 @@ ifeq ($(UNAME), CYGWIN_NT-6.3)
 BROWSER=/cygdrive/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe
 endif
 
-doc: man
+doc: 
 	cd docs; make html
 
 publish:
