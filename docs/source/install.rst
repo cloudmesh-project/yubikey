@@ -98,7 +98,7 @@ Test the key:
 
 go to:
 
-* http://127.0.0.1:8000/yubico/
+* http://127.0.0.1:8000/yubico/login/
 
 You'll be asked for your username and otp key.  enter your username,
 click on the otp and press the otp to generate the otp key.  If
