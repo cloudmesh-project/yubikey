@@ -5,6 +5,9 @@ First thing to do after you get a yubikey is to get api key:
 https://upgrade.yubico.com/getapikey/
 This link provides you Client ID & Secret Key
 
+Plug in your yubikey to your machine, when asked for keyboard config. Skip & manually select 
+Please go to that link, enter your email id & plug in your yubikey to your computer
+
 Install Dependencies
 ==========
 
