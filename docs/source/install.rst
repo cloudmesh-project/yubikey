@@ -18,7 +18,7 @@ Install The following on your virtual machine: (I have used Virtual Env)
 	pip install django-otp==0.3.4
 	pip install yubico-client==1.9.1
 	pip install django_yubico
-	
+
 This code supports both Django version 1.8 & 1.9
 
 Download the code from github
