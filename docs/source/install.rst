@@ -1,39 +1,34 @@
-Get API key
+Django Portal Yubikey
 =========
 
-Go to this link and get your API key to use:
+First thing to do after you get a yubikey is to get api key:
 https://upgrade.yubico.com/getapikey/
+This link provides you Client ID & Secret Key
 
-Install Django
+Install Dependencies
 ==========
 
-Install Django on your VM: pip install Django==1.8 (Version 1.8
-because this sample uses request.REQUEST.get which is deprecated in
-1.9)
-
-Install The following
+Install The following on your virtual machine: (I have used Virtual Env)
 
 .. prompt:: bash
-
+	pip install Django==1.9
 	pip install django-otp==0.3.4
 	pip install yubico-client==1.9.1
 	pip install django_yubico
+	
+This code supports both Django version 1.8 & 1.9
 
-Some code
+Download the code from github
 =========
 
-Make this section use git clone
+Download at: https://github.com/cloudmesh/yubikey
 
-Unzip the attached file using 
+Or use git clone.
 
-.. prompt:: bash
-
-      tar xvzf yubi.tar.gz
-
-Configuration
+Configuration:
 ===========
 
-Yubikey uses a Database called `DjangoYubicoYubicokey`. To check if
+Yubikey uses a Database called `django_yubico_yubicokey` and model named `DjangoYubicoYubicokey`. To check if
 this is installed use this command:
 
 .. prompt:: bash
@@ -47,7 +42,16 @@ if it is not installed then use:
    python manage.py makemigrations
    python manage.py migrate
 
-Cretae a user
+If you are still unable to find that in your database follow these steps:
+
+.. prompt:: bash
+
+	python manage.py migrate --fake
+	python manage.py makemigrations
+	python manage.py --fake-initial
+	
+
+Add your Yubikey to Django Database:
 ^^^^^^^^^^^
 
 Once you confirm that `DjangoYubicoYubicokey` is installed make sure
@@ -60,8 +64,7 @@ To create admin user in django:
 
 follow the instructions to create credentials.
 
-Run the django by: (There are only 2 url patterns as of now. /admin/ &
-/yubico/)
+Time to run Django and store your keys,run
 
 .. prompt:: bash
 
@@ -75,16 +78,16 @@ login using the credetials that you just created.  you will see a site administr
 
 If you see the database by clicking the link you will see that there are no yubikeys stored.
 
-To add yubikeys click on +Add link and follow the
-instructions. Generally you'll be asked to give these information:
-Device ID, Client ID, Secret Key and the User.  Yubikey supports
-multiple user authentication with just one key. (Advantage)
+#. Click on +Add link and follow the instructions. 
+#. Generally you'll be asked to give these information.
+	* Device ID, Client ID, Secret Key and the User.  Yubikey supports multiple user 
+	authentication with just one key. (Advantage)
 
 To get the details:
 
-#. Device ID: open a text editor, connect your yubikey, press the
-    button on top of yubikey. Generates a random
-    string. First 12 characters is  constant for a device & that is the device ID
+#. Device ID: open a text editor, connect your yubikey to the machine, press the
+    button on top of yubikey. This generates a random
+    string. First 12 characters is constant for a device & that is the device ID.
 #. Client ID: when you registered in the link earlier with the getapikey you'll get the Client ID and the secret key.
 #. Secret Key: Generated when you registered in the getapikey link.
 
@@ -100,9 +103,10 @@ go to:
 You'll be asked for your username and otp key.  enter your username,
 click on the otp and press the otp to generate the otp key.  If
 success then you'll be redirected to page to enter your password.  On
-which if you succeed you'll be taken to `/account/profile` (this has not
-been created so you'll get an error but it still means that you were
+which if you succeed you'll be taken to `/account/profile` (Don't Worry!! This has not
+been created so you'll get an error. It means that you were
 able to login using yubikey)
+
 
 Usually I faced like 2 issues so far with just the login after successfull installation of yubikey database:
 
@@ -112,6 +116,6 @@ Usually I faced like 2 issues so far with just the login after successfull insta
 
     * http://stackoverflow.com/questions/29888046/django-1-8-create-initial-migrations-for-existing-schema
 
-This is an initial draft to test django with yubikey using a sample
-code. This will be updated as and when we test it against other
-systems.
+
+This document will be maintained by @tbindi , & will be constantly updated as and when it is tested on different 
+set of machines.
