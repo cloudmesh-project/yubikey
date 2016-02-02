@@ -1,7 +1,11 @@
-Django Portal Yubikey
-=========
 
-First thing to do after you get a yubikey is to get api key:
+
+Django Portal Yubikey
+===========================
+
+
+
+Next thing to do after you get a yubikey is to get api key:
 https://upgrade.yubico.com/getapikey/
 This link provides you Client ID & Secret Key
 
@@ -9,59 +13,51 @@ Plug in your yubikey to your machine, when asked for keyboard config. Skip & man
 Please go to that link, enter your email id & press the center of the key to generate OTP.
 
 Install Dependencies
-==========
+============================
+
+
 
 Install The following on your virtual machine: (I have used Virtual Env)
 
 .. prompt:: bash
 
-	pip install Django==1.9
-	pip install django-otp==0.3.4
-	pip install yubico-client==1.9.1
-	pip install django_yubico
-
+	pip install Django==1.9 -U
+	pip install django-otp==0.3.4 -U
+	pip install yubico-client==1.9.1 -U
+	pip install django_yubico -U
+	pip install YubiOTP
+	pip install django-otp-yubikey 
+	
 This code supports both Django version 1.8 & 1.9
 
 Download the code from github
-=========
+==============================
 
-Download at: https://github.com/cloudmesh/yubikey
+Repository: https://github.com/cloudmesh/yubikey
 
-Or use git clone.
 
-Configuration:
-===========
-
-Yubikey uses a Database called `django_yubico_yubicokey` and model named `DjangoYubicoYubicokey`. To check if
-this is installed use this command:
+Get Source
 
 .. prompt:: bash
 	    
-	cd sample_yubikey/
-   	python manage.py inspectdb
+  git clone git@github.com:cloudmesh/yubikey.git
+  cd yubikey
+  pip install -r requirements.txt
+  
+Configuration
+===============
 
-
-.. warning::
-
-   # This is an auto-generated Django model module.
-   # You'll have to do the following manually to clean this up:
-   #   * Rearrange models' order
-   #   * Make sure each model has one field with primary_key=True
-   #   * Make sure each ForeignKey has `on_delete` set to the desired behavior.
-   #   * Remove `managed = False` lines if you wish to allow Django to create, modify, and delete the table
-   # Feel free to rename the models, but don't rename db_table values or field names.
-   from __future__ import unicode_literals
-
-   from django.db import models
-
-
-	
-if it is not installed then use: 
+Yubikey uses a Database called `django_yubico_yubicokey` and model
+named `DjangoYubicoYubicokey`. To check if this is installed use this
+command:
 
 .. prompt:: bash
-
-   python manage.py makemigrations
-   python manage.py migrate
+	    
+	cd sample_yubi/
+        python manage.py makemigrations
+        python manage.py migrate
+   	python manage.py inspectdb
+	
 
 If you are still unable to find that in your database follow these steps:
 
@@ -73,7 +69,7 @@ If you are still unable to find that in your database follow these steps:
 	
 
 Add your Yubikey to Django Database:
-^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Once you confirm that `DjangoYubicoYubicokey` is installed make sure
 that you have created an admin user for django portal.
@@ -95,9 +91,11 @@ go to:
 
 * http://127.0.0.1:8000/admin/ 
 
-login using the credetials that you just created.  you will see a site administration page with Yubico Yubikeys.
+login using the credetials that you just created.  you will see a site
+administration page with Yubico Yubikeys.
 
-If you see the database by clicking the link you will see that there are no yubikeys stored.
+If you see the database by clicking the link you will see that there
+are no yubikeys stored.
 
 #. Click on +Add link and follow the instructions. 
 #. Generally you'll be asked to give these information.
@@ -124,12 +122,13 @@ go to:
 You'll be asked for your username and otp key.  enter your username,
 click on the otp and press the otp to generate the otp key.  If
 success then you'll be redirected to page to enter your password.  On
-which if you succeed you'll be taken to `/account/profile` (Don't Worry!! This has not
-been created so you'll get an error. It means that you were
-able to login using yubikey)
+which if you succeed you'll be taken to `/account/profile` (Don't
+Worry!! This has not been created so you'll get an error. It means
+that you were able to login using yubikey)
 
 
-Usually I faced like 2 issues so far with just the login after successfull installation of yubikey database:
+Usually I faced like 2 issues so far with just the login after
+successfull installation of yubikey database:
 
 #. NO_VALID_ANSWERS, https://github.com/Kami/python-yubico-client/issues/6
 #. Any other error related to Database. In this case follow this link
@@ -138,5 +137,5 @@ Usually I faced like 2 issues so far with just the login after successfull insta
     * http://stackoverflow.com/questions/29888046/django-1-8-create-initial-migrations-for-existing-schema
 
 
-This document will be maintained by @tbindi , & will be constantly updated as and when it is tested on different 
-set of machines.
+This document will be maintained by @tbindi , & will be constantly
+updated as and when it is tested on different set of machines.

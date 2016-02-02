@@ -99,7 +99,8 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-AUTHENTICATION_BACKENDS = ('django_yubico.backends.YubicoBackend', 'django.contrib.auth.backends.ModelBackend' )
+AUTHENTICATION_BACKENDS = ('django_yubico.backends.YubicoBackend',
+                           'django.contrib.auth.backends.ModelBackend' )
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

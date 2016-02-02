@@ -11,6 +11,8 @@ ifeq ($(UNAME), CYGWIN_NT-6.3)
 BROWSER=/cygdrive/c/Program\ Files\ \(x86\)/Google/Chrome/Application/chrome.exe
 endif
 
+
+
 doc: 
 	cd docs; make html
 
@@ -27,6 +29,28 @@ log:
 	gitchangelog | fgrep -v ":dev:" | fgrep -v ":new:" > ChangeLog
 	git commit -m "chg: dev: Update ChangeLog" ChangeLog
 	git push
+
+######################################################################
+# INSTALL AND RUN
+######################################################################
+
+r:
+	pip install -r requirements.txt
+
+install:
+	cd sample_yubi; python manage.py makemigrations
+	cd sample_yubi; python manage.py migrate
+	cd sample_yubi; python manage.py inspectdb
+
+admin:
+	cd sample_yubi; python manage.py createsuperuser
+
+run:
+	cd sample_yubi; python manage.py runserver
+
+open:
+	open http://127.0.0.1:8000/admin/ 
+
 
 ######################################################################
 # CLEANING
