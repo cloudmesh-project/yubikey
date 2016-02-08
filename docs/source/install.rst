@@ -1,40 +1,20 @@
-
-
 Django Portal Yubikey
 ===========================
 
+To use yubikey, you will need Client ID & Secret Key.
+Steps to get your yubikey api key:
 
+#. Go to link: https://upgrade.yubico.com/getapikey/
+#. Please enter your email id.
+#. Click on the next input box, plug in your yubikey to USB port of your computer, press the button at the center of the yubikey to generate one-time password.
+#. You will be redirected to another page with Client ID & Secret Key. 
+#. Copy paste both the Client ID & Secret key to a notepad.
 
-Next thing to do after you get a yubikey is to get api key:
-https://upgrade.yubico.com/getapikey/
-This link provides you Client ID & Secret Key
-
-Plug in your yubikey to your machine, when asked for keyboard config. Skip & manually select the keyboard.
-Please go to that link, enter your email id & press the center of the key to generate OTP.
-
-Install Dependencies
-============================
-
-
-
-Install The following on your virtual machine: (I have used Virtual Env)
-
-.. prompt:: bash
-
-	pip install Django==1.9 -U
-	pip install django-otp==0.3.4 -U
-	pip install yubico-client==1.9.1 -U
-	pip install django_yubico -U
-	pip install YubiOTP
-	pip install django-otp-yubikey 
-	
-This code supports both Django version 1.8 & 1.9
 
 Download the code from github
 ==============================
 
 Repository: https://github.com/cloudmesh/yubikey
-
 
 Get Source
 
@@ -42,9 +22,32 @@ Get Source
 	    
   git clone git@github.com:cloudmesh/yubikey.git
   cd yubikey
-  pip install -r requirements.txt
-  
-Configuration
+
+
+Install Dependencies
+============================
+
+Use the following commands to install the dependencies for using 
+yubikey:
+
+.. prompt:: bash
+	    
+  make r
+  make dbmigrate 
+  make admin
+  make run
+
+
+`make r` will install all the dependencies that is used for yubikey.
+`make dbmigrate` will migrate the required db from the previously installed 
+packages.
+`make admin` will ask you to create a superuser. Please continue to 
+fill in your username, email and password.
+`make run` will run the local server, open the browser and go to 
+https://localhost:8000/admin/
+
+
+Configuration - Verification
 ===============
 
 Yubikey uses a Database called `django_yubico_yubicokey` and model
@@ -53,45 +56,17 @@ command:
 
 .. prompt:: bash
 	    
-	cd sample_yubi/
-        python manage.py makemigrations
-        python manage.py migrate
-   	python manage.py inspectdb
-	
-
-If you are still unable to find that in your database follow these steps:
-
-.. prompt:: bash
-
-	python manage.py migrate --fake
-	python manage.py makemigrations
-	python manage.py --fake-initial
+  make inspect
 	
 
 Add your Yubikey to Django Database:
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Once you confirm that `DjangoYubicoYubicokey` is installed make sure
-that you have created an admin user for django portal.
-To create admin user in django:
-
-.. prompt:: bash
-
-   python manage.py createsuperuser
-
-follow the instructions to create credentials.
-
-Time to run Django and store your keys,run
-
-.. prompt:: bash
-
-	python manage.py runserver
-
-go to:
+Go to:
 
 * http://127.0.0.1:8000/admin/ 
 
-login using the credetials that you just created.  you will see a site
+Login using the credetials that you just created. You will see a site 
 administration page with Yubico Yubikeys.
 
 If you see the database by clicking the link you will see that there
@@ -104,14 +79,14 @@ are no yubikeys stored.
 
 To get the details:
 
-#. Device ID: open a text editor, connect your yubikey to the machine, press the
+#. Device ID: open a text editor, connect your yubikey to usb port to the machine, press the
     button on top of yubikey. This generates a random
     string. First 12 characters is constant for a device & that is the device ID.
 #. Client ID: when you registered in the link earlier with the getapikey you'll get the Client ID and the secret key.
 #. Secret Key: Generated when you registered in the getapikey link.
 
-Enter all the details as mentioned and this will give a user access to login using yubikey. 
 
+Enter all the details as mentioned and this will give a user access to login using yubikey. 
 
 Test the key:
 
@@ -119,14 +94,14 @@ go to:
 
 * http://127.0.0.1:8000/yubico/login/
 
-You'll be asked for your username and otp key.  enter your username,
-click on the otp and press the otp to generate the otp key.  If
-success then you'll be redirected to page to enter your password.  On
-which if you succeed you'll be taken to `/account/profile` (Don't
-Worry!! This has not been created so you'll get an error. It means
-that you were able to login using yubikey)
+Enter your username, Click on OTP input box and connect your yubikey to the usb port.
+Press the center of the yubikey to generate the otp. Click on login, you will be taken
+to the next page to enter your password. Enter the password and you will be taken 
+to the accounts/profile/ page. Don't worry, you have just logged in.
 
 
+Possible Issues that one will face
+===============
 Usually I faced like 2 issues so far with just the login after
 successfull installation of yubikey database:
 

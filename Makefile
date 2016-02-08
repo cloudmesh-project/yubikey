@@ -37,16 +37,20 @@ log:
 r:
 	pip install -r requirements.txt
 
-install:
+dbmigrate:
 	cd sample_yubi; python manage.py makemigrations
 	cd sample_yubi; python manage.py migrate
-	cd sample_yubi; python manage.py inspectdb
+	cd sample_yubi; python manage.py makemigrations django_yubico
+	cd sample_yubi; python manage.py migrate
 
 admin:
 	cd sample_yubi; python manage.py createsuperuser
 
 run:
 	cd sample_yubi; python manage.py runserver
+
+inspect:
+	cd sample_yubi; python manage.py inspectdb
 
 open:
 	open http://127.0.0.1:8000/admin/ 
