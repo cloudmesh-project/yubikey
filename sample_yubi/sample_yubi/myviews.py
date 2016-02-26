@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 
 from django.views.decorators.cache import never_cache
 
-from forms import LoginForm, PasswordForm
+from forms import LoginForm, PasswordForm, RegisterForm
 
 # Ask for the user password after the token
 YUBIKEY_USE_PASSWORD = getattr(settings, 'YUBICO_USE_PASSWORD', True)
@@ -34,6 +34,20 @@ YUBIKEY_PASSWORD_ATTEMPTS = getattr(settings, 'YUBICO_PASSWORD_ATTEMPTS', 3)
 # Django Yubico session keys
 SESSION_KEYS = [YUBIKEY_SESSION_USER_ID, YUBIKEY_SESSION_AUTH_BACKEND,
                 YUBIKEY_SESSION_ATTEMPT_COUNTER]
+
+
+@never_cache
+def register(request, template_name='django_yubico/register.html',
+          redirect_field_name=REDIRECT_FIELD_NAME):
+    """
+    Displays the Register form and handles the Register action.
+    """
+    redirect_to = settings.LOGIN_REDIRECT_URL
+    form = RegisterForm()
+
+    dictionary = {'form': form, redirect_field_name: redirect_to}
+    return render_to_response(template_name, dictionary,
+                              context_instance=RequestContext(request))
 
 
 @never_cache

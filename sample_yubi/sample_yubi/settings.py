@@ -54,7 +54,7 @@ ROOT_URLCONF = 'sample_yubi.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['sample_yubi/templates/.'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -100,7 +100,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = ('django_yubico.backends.YubicoBackend',
-                           'django.contrib.auth.backends.ModelBackend' )
+                           'django.contrib.auth.backends.ModelBackend')
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.9/topics/i18n/

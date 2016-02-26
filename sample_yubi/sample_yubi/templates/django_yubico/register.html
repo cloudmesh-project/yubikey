@@ -1,0 +1,14 @@
+{% load i18n %}
+
+{% block content %}
+<div id="User Registration">
+<h1>{% trans 'Yubikey Register' %}</h1>
+    {% trans 'Please Register here:' %}</p>
+    <form action="" method="post" onkeypress="return event.keyCode != 13" id="register_form">
+    {{ form.as_p }}
+<p>
+    <input type="submit" id="yubikey_register_button" value="{% trans 'Register' %}" />
+</p>
+</form>
+</div>
+{% endblock %}

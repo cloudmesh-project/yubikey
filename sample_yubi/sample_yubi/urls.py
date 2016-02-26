@@ -15,10 +15,11 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from views import login, password
+from myviews import login, password, register
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls, name="admin"),
     url(r'^yubico/login/', login, name="yubico_django_login"),
+    url(r'^yubico/register/', register, name="yubico_django_register"),
     url(r'^yubico/password/', password, name="yubico_django_password"),
 ]

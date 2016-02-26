@@ -19,6 +19,29 @@ scroll 2px 2px white; padding-left:20px;'''
 PASSWORD_INPUT_WIDGET_ATTRS = {'style': STYLE}
 
 
+class RegisterForm(forms.Form):
+    email = forms.EmailField(label=_('email'),
+                             widget=forms.EmailInput(),
+                             required=True)
+    username = forms.CharField(label=_('Username'),
+                               required=True)
+    isyubi = forms.BooleanField(label=_('yubikey'),
+                                widget=forms.CheckboxInput(),
+                                required=True)
+    password = forms.CharField(label=_('Password'),
+                               widget=forms.PasswordInput(),
+                               required=True)
+    yubikey = forms.CharField(label=_('Yubikey'),
+                              widget=forms.PasswordInput(),
+                              required=True)
+
+    def __init__(self, *args, **kwargs):
+        super(RegisterForm, self).__init__(*args, **kwargs)
+
+    def clean(self):
+        return self.cleaned_data
+
+
 class LoginForm(forms.Form):
     username = forms.CharField(label=_('Username'))
 
