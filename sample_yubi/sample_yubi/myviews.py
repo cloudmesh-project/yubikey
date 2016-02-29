@@ -43,7 +43,31 @@ def register(request, template_name='django_yubico/register.html',
     Displays the Register form and handles the Register action.
     """
     redirect_to = settings.LOGIN_REDIRECT_URL
-    form = RegisterForm()
+    if request.method == 'POST':
+        form = RegisterForm(request.POST)
+
+        if form.is_valid():
+            user = form.username
+            email = form.email
+            yubi = form.yubikey
+            password_user = form.password
+
+            if yubi:
+                # User wants to register his yubikey
+                # If yubikey in Database:
+                #       Error -- yubikey already registered
+                # elif verify yubikey at yubicloud:
+                #       if error -- throw that error. redirect to register
+                #       else success -- register yubikey with (yubikeyID, userID) --> Wait for approval.
+                print "Check if the user's yubikey has been already registered."
+            else:
+                # Normal register without yubikey
+                print "Register user and make his auth type as just password."
+        else:
+            # Not a valid form, open Register form with an error message.
+            form = RegisterForm()
+    else:
+        form = RegisterForm()
 
     dictionary = {'form': form, redirect_field_name: redirect_to}
     return render_to_response(template_name, dictionary,

@@ -20,23 +20,25 @@ PASSWORD_INPUT_WIDGET_ATTRS = {'style': STYLE}
 
 
 class RegisterForm(forms.Form):
-    email = forms.EmailField(label=_('email'),
+    email = forms.EmailField(label=_('Email'),
                              widget=forms.EmailInput(),
                              required=True)
     username = forms.CharField(label=_('Username'),
                                required=True)
-    isyubi = forms.BooleanField(label=_('yubikey'),
-                                widget=forms.CheckboxInput(),
-                                required=True)
     password = forms.CharField(label=_('Password'),
                                widget=forms.PasswordInput(),
                                required=True)
     yubikey = forms.CharField(label=_('Yubikey'),
                               widget=forms.PasswordInput(),
-                              required=True)
+                              required=False)
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
+        self.email = None
+        self.username = None
+        self.isyubi = None
+        self.password = None
+        self.yubikey = None
 
     def clean(self):
         return self.cleaned_data
