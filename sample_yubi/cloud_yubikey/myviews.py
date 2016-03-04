@@ -58,11 +58,13 @@ def register(request, template_name='django_yubico/register.html',
                 #       Error -- yubikey already registered
                 # elif verify yubikey at yubicloud:
                 #       if error -- throw that error. redirect to register
-                #       else success -- register yubikey with (yubikeyID, userID) --> Wait for approval.
+                #       else success -- register yubikey with (yubikeyID, userI
+                # D) --> Wait for approval.
                 print "Check if the user's yubikey has been already registered."
             else:
                 # Normal register without yubikey
                 print "Register user and make his auth type as just password."
+
         else:
             # Not a valid form, open Register form with an error message.
             form = RegisterForm()
