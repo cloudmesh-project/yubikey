@@ -4,6 +4,8 @@ from django import forms
 from django.conf import settings
 from django.contrib.auth import authenticate
 from django.utils.translation import ugettext_lazy as _
+from django_countries import countries
+from django_countries.fields import LazyTypedChoiceField
 
 RE_PUBLIC_ID = re.compile(r'^[cbdefghijklnrtuv]{12}$')
 RE_TOKEN = re.compile(r'^[cbdefghijklnrtuv]{32,64}$')
@@ -25,20 +27,30 @@ class RegisterForm(forms.Form):
                              required=True)
     username = forms.CharField(label=_('Username'),
                                required=True)
+    firstname = forms.CharField(label=_('Firstname'),
+                                required=True)
+    lastname = forms.CharField(label=_('Lastname'),
+                               required=True)
     password = forms.CharField(label=_('Password'),
                                widget=forms.PasswordInput(),
                                required=True)
-    yubikey = forms.CharField(label=_('Yubikey'),
-                              widget=forms.PasswordInput(),
-                              required=False)
+    address = forms.CharField(label=_('Address'),
+                              required=True)
+    additional_info = forms.CharField(label=_('Additional Info'))
+    country = LazyTypedChoiceField(label=_('Country'),
+                                   choices=countries)
+    citizen = LazyTypedChoiceField(label=_('Citizenship'),
+                                   choices=countries)
 
     def __init__(self, *args, **kwargs):
         super(RegisterForm, self).__init__(*args, **kwargs)
         self.email = None
         self.username = None
-        self.isyubi = None
         self.password = None
-        self.yubikey = None
+        self.firstname = None
+        self.lastname = None
+        self.address = None
+        self.additional_info = None
 
     def clean(self):
         return self.cleaned_data
