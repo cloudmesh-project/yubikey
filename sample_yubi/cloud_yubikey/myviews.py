@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from models import PortalUser
 
 from django.views.decorators.cache import never_cache
 
@@ -48,9 +49,18 @@ def register(request, template_name='django_yubico/register.html',
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            user = form.username
-            email = form.email
-            password_user = form.password
+            print form.username
+            user = User.objects.create_user(form.cleaned_data['username'],
+                                            form.cleaned_data['email'],
+                                            form.cleaned_data['password'])
+            user.lastname = form.cleaned_data['lastname']
+            user.firstname = form.cleaned_data['firstname']
+            user.save()
+            p = PortalUser(user=user, address=form.cleaned_data['address'],
+                           additional_info=form.cleaned_data['additional_info'],
+                           citizen=form.cleaned_data['citizen'],
+                           country=form.cleaned_data['country'])
+            p.save()
 
         else:
             # Not a valid form, open Register form with an error message.
