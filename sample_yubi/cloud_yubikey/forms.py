@@ -80,7 +80,7 @@ class LoginForm(forms.Form):
 
                 field = forms.RegexField(label=label, widget=widget,
                                          regex=RE_TOKEN,
-                                         min_length=min_length,
+                                         min_lengtCh=min_length,
                                          max_length=max_length)
                 self.fields['otp_%d' % index] = field
 

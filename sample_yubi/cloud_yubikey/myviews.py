@@ -113,7 +113,6 @@ def password(request, template_name='django_yubico/password.html',
     """
     Displays the password form and handles the login action.
     """
-
     redirect_to = settings.LOGIN_REDIRECT_URL
 
     for key in SESSION_KEYS:
