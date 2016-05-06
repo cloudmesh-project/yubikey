@@ -6,6 +6,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from models import PortalUser
 
 from django.views.decorators.cache import never_cache
 
@@ -44,31 +45,28 @@ def register(request, template_name='django_yubico/register.html',
     """
     redirect_to = settings.LOGIN_REDIRECT_URL
     if request.method == 'POST':
+        # POST request to send form
         form = RegisterForm(request.POST)
 
         if form.is_valid():
-            user = form.username
-            email = form.email
-            yubi = form.yubikey
-            password_user = form.password
-
-            if yubi:
-                # User wants to register his yubikey
-                # If yubikey in Database:
-                #       Error -- yubikey already registered
-                # elif verify yubikey at yubicloud:
-                #       if error -- throw that error. redirect to register
-                #       else success -- register yubikey with (yubikeyID, userI
-                # D) --> Wait for approval.
-                print "Check if the user's yubikey has been already registered."
-            else:
-                # Normal register without yubikey
-                print "Register user and make his auth type as just password."
+            print form.username
+            user = User.objects.create_user(form.cleaned_data['username'],
+                                            form.cleaned_data['email'],
+                                            form.cleaned_data['password'])
+            user.lastname = form.cleaned_data['lastname']
+            user.firstname = form.cleaned_data['firstname']
+            user.save()
+            p = PortalUser(user=user, address=form.cleaned_data['address'],
+                           additional_info=form.cleaned_data['additional_info'],
+                           citizen=form.cleaned_data['citizen'],
+                           country=form.cleaned_data['country'])
+            p.save()
 
         else:
             # Not a valid form, open Register form with an error message.
             form = RegisterForm()
     else:
+        # GET request to get form
         form = RegisterForm()
 
     dictionary = {'form': form, redirect_field_name: redirect_to}
@@ -115,7 +113,6 @@ def password(request, template_name='django_yubico/password.html',
     """
     Displays the password form and handles the login action.
     """
-
     redirect_to = settings.LOGIN_REDIRECT_URL
 
     for key in SESSION_KEYS:
